@@ -2,16 +2,10 @@ import pandas as pd
 import re
 
 
-def get_clean_data_frame(file):
-    df = pd.read_csv(file)
-
+def get_clean_data_frame(df, medians):
     df["bhp_max_power"] = df["max_power"].apply(convert_to_num)
     df["kmpl_mileage"] = df["mileage"].apply(convert_to_num)
     df["cc_engine"] = df["engine"].apply(convert_to_num)
-
-    df["cc_engine"] = df["cc_engine"].fillna(0).astype(int)
-    df["seats"] = df["seats"].fillna(0).astype(int)
-
     df[["mark", "model"]] = df["name"].apply(convert_name)
 
     df["nm_torque"] = df.apply(lambda row: convert_to_nm(row["torque"], row["name"]), axis=1)
@@ -21,15 +15,18 @@ def get_clean_data_frame(file):
 
     df = df.drop(columns=["max_power", "mileage", "engine", "torque", "name"])
 
-    df = fill_nan_median(df)
+    df = fill_nan_median(df, medians)
+
+    df["cc_engine"] = df["cc_engine"].astype(int)
+    df["seats"] = df["seats"].astype(int)
 
     return df
 
 
-def fill_nan_median(df):
-    na_columns = df.columns[df.isna().any()].tolist()
-    medians = df[na_columns].median()
+def fill_nan_median(df, medians):
+    na_columns = medians.index.tolist()
     df[na_columns] = df[na_columns].fillna(medians)
+
     return df
 
 
@@ -58,16 +55,20 @@ def convert_to_nm(torque, name):
         if torque == "110(11.2)@ 4800":
             return float(torque.split("(")[0])
         else:
-            print(f"[ERROR]:\nvalue: {torque}\ne: {ex}\n")
+            print(f"[WARNING]:\nvalue: {torque}\nex: {ex}\n")
             return None
 
 
 def convert_name(value):
-    result = value.split(" ")
+    try:
+        result = value.split(" ")
 
-    mark = result[0]
-    model = result[1]
-    return pd.Series([mark, model], index=["mark", "model"])
+        mark = result[0]
+        model = result[1]
+        return pd.Series([mark, model], index=["mark", "model"])
+    except Exception as ex:
+        print(f"[WARNING]:\nincorrect name format: {value}\nex: {ex}\n")
+        return pd.Series([value, value], index=["mark", "model"])
 
 
 def convert_to_num(value):
@@ -81,5 +82,5 @@ def convert_to_num(value):
         else:
             return num_value
     except Exception as e:
-        print(f"[ERROR]:\nval: {value}\nex: {e}\n")
+        print(f"[WARNING]:\nval: {value}\nex: {e}\n")
         return None

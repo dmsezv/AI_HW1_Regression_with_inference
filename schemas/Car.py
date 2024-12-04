@@ -3,20 +3,19 @@ from typing import List
 
 
 class Car(BaseModel):
+    name: str
+    year: int
+    km_driven: int
     fuel: str
     seller_type: str
     transmission: str
     owner: str
-    seats: int
-    mark: str
-    model: str
-    year: int
-    km_driven: int
-    nm_torque: float
-    bhp_max_power: float
-    cc_engine: float
-    kmpl_mileage: float
+    mileage: str
+    engine: str
+    max_power: str
+    torque: str
+    seats: float
 
 
 class Cars(BaseModel):
-    objects: List[Car]
+    list: List[Car]
