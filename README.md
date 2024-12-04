@@ -2,11 +2,6 @@
 
 Проведение EDA и обучение линейной модели на датасете [cars_train.csv](https://raw.githubusercontent.com/Murcha1990/MLDS_ML_2022/main/Hometasks/HT1/cars_train.csv) и [cars_test.csv](https://raw.githubusercontent.com/Murcha1990/MLDS_ML_2022/main/Hometasks/HT1/cars_test.csv)
 
-Загрузка screencast gif - 15MB:
-![scrcast](https://github.com/dmsezv/AI_HW1_Regression_with_inference/blob/main/screencast/aihw1_scrncast-3.gif)
-
-Видео screencast можно скачать по [ссылке](https://github.com/dmsezv/AI_HW1_Regression_with_inference/blob/main/screencast/aihw1_scrncast-3.mov).
-
 ## Что было сделано
 
 Был проведен предварительный анализ датасета с характеристиками автомобилей и их ценой. Было изменено текстовое поле с крутящим моментом и оборотами  Я принял решение оставить только крутящий момент, предварительно приведя значения к Ньютон*метрам. Также было обработано текстовое поле с названием автомобиля. Я решил вытащить оттуда марку и модель, что потом было удобно закодированно с помощью OHE.  
@@ -21,6 +16,11 @@
 После этого было разработано API для взаимодействия с моделью. По условию задания я работал с сырыми данными, предварительно обрабабывае их с помощью formatter и preprocessor. 
 > [!NOTE]
 > Но я считаю, что лучше было бы сделать API которое ждет уже чистые данные, а если требуется обработать сырые - то лучше выделить для этого отдельный сервис.
+
+Screencast gif - 15MB:
+![scrcast](https://github.com/dmsezv/AI_HW1_Regression_with_inference/blob/main/screencast/aihw1_scrncast-3.gif)
+
+Видео screencast можно скачать по [ссылке](https://github.com/dmsezv/AI_HW1_Regression_with_inference/blob/main/screencast/aihw1_scrncast-3.mov).
 
 ## С какими результатами
 
